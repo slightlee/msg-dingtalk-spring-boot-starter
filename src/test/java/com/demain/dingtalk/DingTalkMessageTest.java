@@ -1,6 +1,8 @@
 package com.demain.dingtalk;
 
+import com.demain.dingtalk.markdown.MarkdownBuilder;
 import com.demain.dingtalk.message.DingTalkLinkMessage;
+import com.demain.dingtalk.message.DingTalkMarkdownMessage;
 import com.demain.dingtalk.message.DingTalkTextMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +53,27 @@ public class DingTalkMessageTest {
 		dingTalkLinkMessage.setPicUrl("https://www.baidu.com/img/bd_logo1.png");
 		dingTalkLinkMessage.setMessageUrl("https://www.baidu.com");
 		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkLinkMessage);
+		System.out.println(response.toString());
+		Assertions.assertTrue(response.isSuccess());
+	}
+
+	/**
+	 * markdown类型消息
+	 */
+	@Test
+	public void dingTalkMarkDownMessageSend() throws IOException {
+		DingTalkMarkdownMessage dingTalkMarkdownMessage = new DingTalkMarkdownMessage();
+		dingTalkMarkdownMessage.setTitle("测试机器人markdown消息title");
+
+		MarkdownBuilder markdownBuilder = new MarkdownBuilder();
+		markdownBuilder.title1("一级标题");
+		markdownBuilder.quote("引用换行引用换行引用换行引用换行引用换行引用换行");
+		markdownBuilder.quoteBreak("22222222222引用换行引用换行引用换行引用换行引用换行引用换行");
+		markdownBuilder.code("java",
+				"\tpublic static void main(String[] args) {\n" + "\t\tSystem.out.println(\"Hello World!\");\n" + "\t}");
+		String content = markdownBuilder.build();
+		dingTalkMarkdownMessage.setText(content);
+		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkMarkdownMessage);
 		System.out.println(response.toString());
 		Assertions.assertTrue(response.isSuccess());
 	}
