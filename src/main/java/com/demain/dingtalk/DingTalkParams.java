@@ -280,7 +280,7 @@ public class DingTalkParams {
 		private String title;
 
 		/**
-		 * 消息内不止一个按钮时，该参数必填
+		 * 按钮的信息列表 消息内不止一个按钮时，该参数必填
 		 */
 		private List<Button> btns;
 
@@ -342,7 +342,7 @@ public class DingTalkParams {
 
 	}
 
-	static class Button {
+	public static class Button {
 
 		/**
 		 * 按钮上显示的文本
