@@ -1,10 +1,7 @@
 package com.demain.dingtalk;
 
 import com.demain.dingtalk.markdown.MarkdownBuilder;
-import com.demain.dingtalk.message.DingTalkActionCardMessage;
-import com.demain.dingtalk.message.DingTalkLinkMessage;
-import com.demain.dingtalk.message.DingTalkMarkdownMessage;
-import com.demain.dingtalk.message.DingTalkTextMessage;
+import com.demain.dingtalk.message.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 钉钉机器人消息测试
@@ -27,7 +26,7 @@ public class DingTalkMessageTest {
     void before() throws NoSuchAlgorithmException, InvalidKeyException {
         dingTalkSend = new DingTalkSend(
                 "https://oapi.dingtalk.com/robot/send?access_token=1baa692fa0c8a2400a9b05da0aa35fa47d320455769c702e632af8ba56bfd874");
-        dingTalkSend.setSecret("xxx");
+        dingTalkSend.setSecret("SECbf85ca4ffb1d519c21619d08f1be72c9ba1675b1b8fda2ca0c1385788ffef486");
     }
 
     /**
@@ -104,6 +103,25 @@ public class DingTalkMessageTest {
         System.out.println(response.toString());
         Assertions.assertTrue(response.isSuccess());
 
+    }
+
+    /**
+     * feeCard类型消息
+     */
+    @Test
+    public void dingTalkFeedCardMessageSend() throws IOException {
+        DingTalkFeedCardMessage dingTalkFeedCardMessage = new DingTalkFeedCardMessage();
+//        dingTalkFeedCardMessage.addLinks("测试机器人消息推送1", "https://www.baidu.com", "https://www.baidu.com/img/bd_logo1.png");
+//        dingTalkFeedCardMessage.addLinks("测试机器人消息推送2", "https://www.baidu.com", "https://www.baidu.com/img/bd_logo1.png");
+
+
+        List<DingTalkParams.Links> links = new ArrayList<>();
+        links.add(new DingTalkParams.Links("测试机器人消息推送3", "https://www.baidu.com", "https://www.baidu.com/img/bd_logo1.png"));
+        links.add(new DingTalkParams.Links("测试机器人消息推送4", "https://www.baidu.com", "https://www.baidu.com/img/bd_logo1.png"));
+        dingTalkFeedCardMessage.addLinks(links);
+
+        DingTalkResponse response = dingTalkSend.sendMessage(dingTalkFeedCardMessage);
+        Assertions.assertTrue(response.isSuccess());
     }
 
 }
