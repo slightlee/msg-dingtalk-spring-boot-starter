@@ -4,8 +4,9 @@ import com.demain.dingtalk.DingTalkParams;
 import com.demain.dingtalk.enums.MessageTypeEnum;
 import com.google.gson.Gson;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -31,31 +32,46 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	 */
 	private final Set<String> userIds = new HashSet<>();
 
-	/**
-	 * 添加被@的群成员手机号
-	 * @param mobile 被@的群成员手机号
-	 */
-	public AbstractDingTalkMessage setAtMobiles(String... mobile) {
-		Collections.addAll(mobiles, mobile);
-		return this;
+	public AbstractDingTalkMessage() {
 	}
 
 	/**
-	 * 添加被@的群成员userId
-	 * @param userId 被@的群成员userId
+	 * @param isAtAll 是否@所有人
 	 */
-	public AbstractDingTalkMessage setAtUserId(String... userId) {
-		Collections.addAll(userIds, userId);
-		return this;
+	public AbstractDingTalkMessage(boolean isAtAll) {
+		this.isAtAll = isAtAll;
+	}
+
+	/**
+	 * @param mobiles 被@的群成员手机号
+	 * @param userIds 被@的群成员userId
+	 */
+	public AbstractDingTalkMessage(String[] mobiles, String[] userIds) {
+		Optional.ofNullable(mobiles).map(Arrays::asList).ifPresent(this.mobiles::addAll);
+		Optional.ofNullable(userIds).map(Arrays::asList).ifPresent(this.userIds::addAll);
+	}
+
+	/**
+	 * @param isAtAll 是否@所有人
+	 * @param mobiles 被@的群成员手机号
+	 * @param userIds 被@的群成员userId
+	 */
+	public AbstractDingTalkMessage(boolean isAtAll, String[] mobiles, String[] userIds) {
+		this.isAtAll = isAtAll;
+		Optional.ofNullable(mobiles).map(Arrays::asList).ifPresent(this.mobiles::addAll);
+		Optional.ofNullable(userIds).map(Arrays::asList).ifPresent(this.userIds::addAll);
 	}
 
 	/**
 	 * 获取消息类型
+	 * @return 消息类型
 	 */
 	public abstract MessageTypeEnum getMsgType();
 
 	/**
 	 * 组装消息
+	 * @param params 钉钉消息发送参数
+	 * @return 钉钉消息发送参数
 	 */
 	public abstract DingTalkParams generateParams(DingTalkParams params);
 
