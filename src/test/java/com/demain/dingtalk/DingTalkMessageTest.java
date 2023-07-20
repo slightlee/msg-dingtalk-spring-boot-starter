@@ -50,12 +50,16 @@ public class DingTalkMessageTest {
 	 */
 	@Test
 	public void dingTalkLinkMessageSend() throws IOException {
-		DingTalkLinkMessage dingTalkLinkMessage = new DingTalkLinkMessage();
-		dingTalkLinkMessage.setText("测试机器人链接消息text");
-		dingTalkLinkMessage.setTitle("测试机器人链接消息title");
-		dingTalkLinkMessage.setPicUrl("https://www.baidu.com/img/bd_logo1.png");
-		dingTalkLinkMessage.setMessageUrl("https://www.baidu.com");
-		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkLinkMessage);
+		DingTalkLinkMessage dingTalkLinkMessage1 = new DingTalkLinkMessage("链接消息1-title", "链接消息1-text",
+				"https://www.baidu.com/img/bd_logo1.png", "https://www.baidu.com");
+		DingTalkLinkMessage dingTalkLinkMessage2 = new DingTalkLinkMessage(true, "链接消息2-title", "链接消息2-text",
+				"https://www.baidu.com/img/bd_logo1.png", "https://www.baidu.com");
+		String[] mobiles = { "176xxx" };
+		DingTalkLinkMessage dingTalkLinkMessage3 = new DingTalkLinkMessage(mobiles, null, "链接消息3-title", "链接消息3-text",
+				"https://www.baidu.com/img/bd_logo1.png", "https://www.baidu.com");
+		DingTalkLinkMessage dingTalkLinkMessage4 = new DingTalkLinkMessage(true, mobiles, null, "链接消息4-title",
+				"链接消息4-text", "https://www.baidu.com/img/bd_logo1.png", "https://www.baidu.com");
+		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkLinkMessage4);
 		System.out.println(response.toString());
 		Assertions.assertTrue(response.isSuccess());
 	}
