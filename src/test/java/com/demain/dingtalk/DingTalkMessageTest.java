@@ -69,8 +69,6 @@ public class DingTalkMessageTest {
 	 */
 	@Test
 	public void dingTalkMarkDownMessageSend() throws IOException {
-		DingTalkMarkdownMessage dingTalkMarkdownMessage = new DingTalkMarkdownMessage();
-		dingTalkMarkdownMessage.setTitle("测试机器人markdown消息title");
 
 		MarkdownBuilder markdownBuilder = new MarkdownBuilder();
 		markdownBuilder.title1("一级标题");
@@ -79,8 +77,17 @@ public class DingTalkMessageTest {
 		markdownBuilder.code("java",
 				"\tpublic static void main(String[] args) {\n" + "\t\tSystem.out.println(\"Hello World!\");\n" + "\t}");
 		String content = markdownBuilder.build();
-		dingTalkMarkdownMessage.setText(content);
-		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkMarkdownMessage);
+
+		DingTalkMarkdownMessage dingTalkMarkdownMessage1 = new DingTalkMarkdownMessage("markdown消息title-1", content);
+		DingTalkMarkdownMessage dingTalkMarkdownMessage2 = new DingTalkMarkdownMessage(true, "markdown消息title-2",
+				content);
+		String[] mobiles = { "176xxx" };
+		DingTalkMarkdownMessage dingTalkMarkdownMessage3 = new DingTalkMarkdownMessage(mobiles, null,
+				"markdown消息title-3", content);
+		DingTalkMarkdownMessage dingTalkMarkdownMessage4 = new DingTalkMarkdownMessage(true, mobiles, null,
+				"markdown消息title-4", content);
+
+		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkMarkdownMessage4);
 		System.out.println(response.toString());
 		Assertions.assertTrue(response.isSuccess());
 	}
