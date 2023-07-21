@@ -1,5 +1,7 @@
 package com.demain.dingtalk;
 
+import com.demain.dingtalk.enums.ActionBtnOrientationEnum;
+import com.demain.dingtalk.enums.ActionHideAvatarEnum;
 import com.demain.dingtalk.markdown.MarkdownBuilder;
 import com.demain.dingtalk.message.*;
 import org.junit.jupiter.api.Assertions;
@@ -97,8 +99,6 @@ public class DingTalkMessageTest {
 	 */
 	@Test
 	public void dingTalkActionCardMessageSend() throws IOException {
-		DingTalkActionCardMessage dingTalkActionCardMessage = new DingTalkActionCardMessage();
-		dingTalkActionCardMessage.setTitle("测试机器人天气消息推送");
 		MarkdownBuilder markdownBuilder = new MarkdownBuilder();
 		markdownBuilder.title1("天气消息推送");
 		markdownBuilder.quoteBreak();
@@ -109,13 +109,54 @@ public class DingTalkMessageTest {
 		markdownBuilder.append(
 				"![screenshot](https://pics4.baidu.com/feed/63d9f2d3572c11df898d5232d0111fdcf703c202.jpeg@f_auto?token=e30872960cc8a8007a8606949dd1b805)");
 		String content = markdownBuilder.build();
-		dingTalkActionCardMessage.setText(content);
-		dingTalkActionCardMessage.setSingleTitle("单按钮标题");
-		dingTalkActionCardMessage.setSingleURL("https://www.baidu.com");
-		dingTalkActionCardMessage.addButton("按钮1",
+
+		DingTalkActionCardMessage dingTalkActionCardMessage1 = new DingTalkActionCardMessage(content,
+				"actionCard消息title-1");
+
+		DingTalkActionCardMessage dingTalkActionCardMessage2 = new DingTalkActionCardMessage("https://www.baidu.com",
+				"单按钮标题", content, "actionCard消息title-2");
+
+		DingTalkActionCardMessage dingTalkActionCardMessage3 = new DingTalkActionCardMessage(null, null, content,
+				"actionCard消息title-3");
+
+		// @formatter:off
+		DingTalkActionCardMessage dingTalkActionCardMessage4 = new DingTalkActionCardMessage(null, null, content,"actionCard消息title-4")
+						.addButton("按钮1","https://weathernew.pae.baidu.com/weathernew/pc?query=%E5%8C%97%E4%BA%AC%E5%A4%A9%E6%B0%94&srcid=4982&forecast=long_day_forecast")
+						.addButton("按钮2", "https://www.baidu.com");
+		// @formatter:on
+
+		DingTalkParams.Button button1 = new DingTalkParams.Button("按钮1",
 				"https://weathernew.pae.baidu.com/weathernew/pc?query=%E5%8C%97%E4%BA%AC%E5%A4%A9%E6%B0%94&srcid=4982&forecast=long_day_forecast");
-		dingTalkActionCardMessage.addButton("按钮2", "https://www.baidu.com");
-		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkActionCardMessage);
+		DingTalkParams.Button button2 = new DingTalkParams.Button("按钮2", "https://www.baidu.com");
+
+		DingTalkActionCardMessage dingTalkActionCardMessage5 = new DingTalkActionCardMessage(content,
+				"actionCard消息title-5").addButtons(button1, button2);
+
+		List<DingTalkParams.Button> list = new ArrayList<>();
+		list.add(button1);
+		list.add(button2);
+		DingTalkActionCardMessage dingTalkActionCardMessage6 = new DingTalkActionCardMessage(content,
+				"actionCard消息title-6", list);
+
+		DingTalkActionCardMessage dingTalkActionCardMessage7 = new DingTalkActionCardMessage(true,
+				ActionHideAvatarEnum.HIDE.getVal(), ActionBtnOrientationEnum.VERTICAL.getVal(), "https://www.baidu.com",
+				"单按钮标题", content, "actionCard消息title-7");
+
+		DingTalkActionCardMessage dingTalkActionCardMessage8 = new DingTalkActionCardMessage(true,
+				ActionHideAvatarEnum.HIDE.getVal(), ActionBtnOrientationEnum.VERTICAL.getVal(), content,
+				"actionCard消息title-8");
+		dingTalkActionCardMessage8.addButtons(button1, button2);
+
+		String[] mobiles = { "176xxx" };
+		DingTalkActionCardMessage dingTalkActionCardMessage9 = new DingTalkActionCardMessage(mobiles, null,
+				ActionHideAvatarEnum.HIDE.getVal(), ActionBtnOrientationEnum.VERTICAL.getVal(), "https://www.baidu.com",
+				"单按钮标题", content, "actionCard消息title-9");
+
+		DingTalkActionCardMessage dingTalkActionCardMessage10 = new DingTalkActionCardMessage(mobiles, null,
+				ActionHideAvatarEnum.HIDE.getVal(), ActionBtnOrientationEnum.VERTICAL.getVal(), content,
+				"actionCard消息title-10");
+
+		DingTalkResponse response = dingTalkSend.sendMessage(dingTalkActionCardMessage10);
 		System.out.println(response.toString());
 		Assertions.assertTrue(response.isSuccess());
 
