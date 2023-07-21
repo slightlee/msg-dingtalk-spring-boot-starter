@@ -14,35 +14,33 @@ import java.util.List;
  */
 public class DingTalkFeedCardMessage extends AbstractDingTalkMessage {
 
+	private List<DingTalkParams.Links> lks = new ArrayList<>();
 
-    private List<DingTalkParams.Links> lks = new ArrayList<>();
+	/**
+	 * 内容列表
+	 */
+	public DingTalkFeedCardMessage addLinks(String title, String messageURL, String picURL) {
+		DingTalkParams.Links links = new DingTalkParams.Links(title, messageURL, picURL);
+		lks.add(links);
+		return this;
+	}
 
-    /**
-     * 内容列表
-     */
-    public DingTalkFeedCardMessage addLinks(String title, String messageURL, String picURL) {
-        DingTalkParams.Links links = new DingTalkParams.Links(title, messageURL, picURL);
-        lks.add(links);
-        return this;
-    }
+	public DingTalkFeedCardMessage addLinks(List<DingTalkParams.Links> links) {
+		lks.addAll(links);
+		return this;
+	}
 
-    public DingTalkFeedCardMessage addLinks(List<DingTalkParams.Links> links) {
-        lks.addAll(links);
-        return this;
-    }
+	@Override
+	public MessageTypeEnum getMsgType() {
+		return MessageTypeEnum.FEEDCARD;
+	}
 
-    @Override
-    public MessageTypeEnum getMsgType() {
-        return MessageTypeEnum.FEEDCARD;
-    }
-
-    @Override
-    public DingTalkParams generateParams(DingTalkParams params) {
-        DingTalkParams.FeedCard feedCard = new DingTalkParams.FeedCard();
-        feedCard.setLinks(lks);
-        params.setFeedCard(feedCard);
-        return params;
-    }
-
+	@Override
+	public DingTalkParams generateParams(DingTalkParams params) {
+		DingTalkParams.FeedCard feedCard = new DingTalkParams.FeedCard();
+		feedCard.setLinks(lks);
+		params.setFeedCard(feedCard);
+		return params;
+	}
 
 }
