@@ -1,0 +1,4 @@
+msg:
+  dingtalk:
+    url: https://oapi.dingtalk.com/robot/send?access_token=1baa692fa0c8a2400a9b05da0aa35fa47d320455769c702e632af8ba56bfd874
+    secret: SECbf85ca4ffb1d519c21619d08f1be72c9ba1675b1b8fda2ca0c1385788ffef486
