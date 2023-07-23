@@ -89,6 +89,9 @@
 
 
     <build>
+
+        <!--  todo 发布仓库-->
+
         <plugins>
             <!--
                 github地址： https://github.com/spring-io/spring-javaformat
