@@ -59,7 +59,34 @@ public class MsgSendController {
 
 #### 线上仓库使用
 
-> 待完善...
+##### 快照版
+
+###### pom.xml
+
+```xml
+<dependency>
+    <groupId>io.github.slightlee</groupId>
+    <artifactId>msg-dingtalk-spring-boot-starter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+###### 配置快照版仓库地址
+
+> pom.xml
+
+```xml
+<repositories>
+    <repository>
+        <id>oss-snapshot</id>
+        <name>oss-snapshot</name>
+        <url>https://s01.oss.sonatype.org/content/groups/public/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+```
 
 ### 更多示例
 
